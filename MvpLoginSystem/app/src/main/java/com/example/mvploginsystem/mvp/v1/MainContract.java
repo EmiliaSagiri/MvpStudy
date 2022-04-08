@@ -1,10 +1,14 @@
 package com.example.mvploginsystem.mvp.v1;
 
+
+import com.example.mvploginsystem.mvp.v1.basemvp.IBasePresenter;
+import com.example.mvploginsystem.mvp.v1.basemvp.IBaseView;
+
 /**
  * 登录通用接口
  */
 public interface MainContract {
-    interface IMainModel {
+    interface IMainModel  {
         void login(String username, String password, LoginCallback loginCallback);
         interface LoginCallback{
             void getNameError(boolean isSuccess);
@@ -13,7 +17,7 @@ public interface MainContract {
         }
     }
 
-    interface IMainView {
+    interface IMainView extends IBaseView {
         void setNameError();
 
         void setPasswordError();
@@ -25,7 +29,7 @@ public interface MainContract {
 
     }
 
-    interface IMainPresenter {
+    interface IMainPresenter extends IBasePresenter {
         void handlerData(String username,String password);
     }
 

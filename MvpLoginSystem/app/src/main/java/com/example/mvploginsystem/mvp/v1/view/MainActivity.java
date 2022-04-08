@@ -1,40 +1,50 @@
 package com.example.mvploginsystem.mvp.v1.view;
-
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.annotation.Nullable;
 import com.example.mvploginsystem.DBManager;
 import com.example.mvploginsystem.R;
 import com.example.mvploginsystem.User;
-import com.example.mvploginsystem.login.LoginPresenter;
 import com.example.mvploginsystem.mvp.v1.MainContract;
+import com.example.mvploginsystem.mvp.v1.basemvp.BaseActivity;
 import com.example.mvploginsystem.mvp.v1.presenter.MainPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainContract.IMainView {
-    private MainPresenter mainPresenter;
+public class MainActivity extends BaseActivity<MainContract.IMainPresenter> implements MainContract.IMainView {
     private EditText editText_name;
     private EditText editText_password;
     private Button button_login;
     private List<User> userList =new ArrayList<>();
     private DBManager dbManager;
+
+    @Override
+    protected void initLayout(@Nullable Bundle savedInstanceState) {
+        setContentView(R.layout.activity_main2);
+    }
+
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    protected MainContract.IMainPresenter setPresenter() {
+        return new MainPresenter();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-        initView();
-        dbManager =DBManager.getInstance(this);
-        mainPresenter = new MainPresenter(this);
+        dbManager = DBManager.getInstance(this);
         button_login.setOnClickListener(v -> onStartLogin());
 
     }
-    private void initView(){
+    protected void initView(){
         editText_name = findViewById(R.id.User_v1_name);
         editText_password = findViewById(R.id.User_v1_password);
         button_login = findViewById(R.id.User_v1_login);
@@ -71,13 +81,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.IMai
             Toast.makeText(this,"登陆失败",Toast.LENGTH_SHORT).show();
         }
     }
-    public void onStartLogin(){
-        mainPresenter.handlerData(editText_name.getText().toString(),editText_password.getText().toString());
-    }
 
-    public void onDestroy() {
-        mainPresenter.onDestroy();
-        super.onDestroy();
+    @Override
+    public void onStartLogin() {
+        mPresenter.handlerData(editText_name.getText().toString(),editText_password.getText().toString());
     }
 
 }

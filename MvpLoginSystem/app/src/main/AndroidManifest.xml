@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MvpLoginSystem">
         <activity
+            android:name=".mvp.v1.basemvp.BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".mvp.v1.view.MainActivity"
             android:exported="false" />
         <activity
